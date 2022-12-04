@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { BsFillTrashFill } from "react-icons/bs";
 
 import { COLORS } from "../constants/colors";
+import TodoContainer from "./TodoContainer";
 
 const StyledContainer = styled.div({
   backgroundColor: COLORS.brown,
@@ -80,26 +80,6 @@ const StyledTodosContainer = styled.div({
   paddingTop: 20,
 });
 
-const StyledTodoContainer = styled.div({
-  width: 900,
-  minHeight: 40,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  backgroundColor: COLORS.cream,
-  marginTop: "1rem",
-  borderRadius: 4,
-  padding: "0 2rem",
-  "@media (max-width: 624px)": {
-    width: 300,
-  },
-});
-
-const StyledTodoText = styled.p({
-  fontSize: 20,
-  textShadow: "1px 1px 1px #6d736f",
-});
-
 const StyledEmptyText = styled.p({
   height: 480,
   fontSize: 44,
@@ -116,7 +96,6 @@ const TodoUI: React.FC = () => {
   const addTodo = () => {
     setTodos([input, ...todos]);
     setInput("");
-    console.log(todos);
   };
 
   const deleteTodo = (todoIdx: number) => {
@@ -158,20 +137,13 @@ const TodoUI: React.FC = () => {
         <StyledEmptyText>add some to-do</StyledEmptyText>
       ) : (
         <StyledTodosContainer>
-          {todos.map((todo, idx) => {
-            return (
-              <StyledTodoContainer key={idx}>
-                <StyledTodoText>
-                  {idx + 1}. {todo}
-                </StyledTodoText>
-                <BsFillTrashFill
-                  size={22}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => deleteTodo(idx)}
-                />
-              </StyledTodoContainer>
-            );
-          })}
+          {todos.map((todo, idx) => (
+            <TodoContainer
+              todo={todo}
+              idx={idx}
+              deleteTodo={() => deleteTodo(idx)}
+            />
+          ))}
         </StyledTodosContainer>
       )}
     </StyledContainer>
